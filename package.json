@@ -1,0 +1,28 @@
+{
+  "name": "nlw-ia-back",
+  "version": "1.0.0",
+  "description": "Vamos avançar para o próximo nível no NLW IA 🚀 #NextLevelWeek #NeverStopLearning",
+  "main": "index.js",
+  "repository": "git@github.com:wr2net/nlw-ia-back.git",
+  "author": "wr2net <wagnerr2@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.6.2",
+    "dotenv": "^16.3.1",
+    "prisma": "^5.3.1",
+    "tsx": "^3.12.10",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@fastify/cors": "^8.3.0",
+    "@fastify/multipart": "^7.7.3",
+    "@prisma/client": "5.3.1",
+    "fastify": "^4.23.2",
+    "openai": "^4.7.1",
+    "zod": "^3.22.2"
+  },
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "prisma": "prisma studio"
+  }
+}
