@@ -1,9 +1,9 @@
-import {FastifyInstance} from "fastify";
-import {prisma} from "../lib/prisma";
-import {z} from "zod";
-import { createReadStream } from "node:fs";
-import {openai} from "../lib/openai";
-import * as repl from "repl";
+import { FastifyInstance } from "fastify";
+import { z } from "zod";
+// @ts-ignore
+import { streamToResponse, OpenAIStream } from 'ai'
+import { prisma } from "../lib/prisma";
+import { openai } from "../lib/openai";
 
 export async function generateAiCompletionRoute(app: FastifyInstance) {
 	app.post('/ai/complete', async (req) => {
@@ -22,6 +22,7 @@ export async function generateAiCompletionRoute(app: FastifyInstance) {
 		})
 
 		if (!video.transcription) {
+			// @ts-ignore
 			return reply.status(400).send({error: "video transcription was not generated yet."})
 		}
 
@@ -36,8 +37,17 @@ export async function generateAiCompletionRoute(app: FastifyInstance) {
 					content: promptMessage
 				}
 			],
+			stream: true,
 		})
 
-		return response
+		const stream = OpenAIStream(response)
+
+		// @ts-ignore
+		streamToResponse(stream, reply.raw, {
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+			}
+		})
 	})
 }
